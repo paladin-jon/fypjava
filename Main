@@ -1,0 +1,153 @@
+import java.util.Scanner;
+import java.sql.*;
+import java.util.*;
+
+
+
+public class Main {
+	
+	   // JDBC driver name and database URL
+	   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	   static final String DB_URL = "jdbc:mysql://localhost/"; //error
+
+	   //  Database credentials
+	   static final String USER = "username";
+	   static final String PASS = "password";
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+    	
+    	   Connection conn = null;
+    	   Statement stmt = null;
+    	   
+    	   try {
+    	  //STEP 2: Register JDBC driver
+	      Class.forName("com.mysql.jdbc.Driver");
+
+	      //STEP 3: Open a connection
+	      System.out.println("Connecting to database...");
+	      conn = DriverManager.getConnection(DB_URL,USER,PASS); //error
+	      
+	      System.out.println("Creating statement...");
+	      stmt = conn.createStatement();
+	      String sql = "CREATE DATABASE STUDENTS";
+	      stmt.executeUpdate(sql);
+	      System.out.println("Database created successfully...");
+	      
+	      /*
+	      //STEP 4: Execute a query
+	      System.out.println("Creating statement...");
+	      stmt = conn.createStatement();
+	      String sql;
+	      sql = "SELECT id, first, last, age FROM Employees";
+	      ResultSet rs = stmt.executeQuery(sql);
+	      
+	      //STEP 5: Extract data from result set
+	      
+	      while(rs.next()){
+	         //Retrieve by column name
+	         int id  = rs.getInt("id");
+	         int age = rs.getInt("age");
+	         String first = rs.getString("first");
+	         String last = rs.getString("last");
+
+	         //Display values
+	         System.out.print("ID: " + id);
+	         System.out.print(", Age: " + age);
+	         System.out.print(", First: " + first);
+	         System.out.println(", Last: " + last);
+	      }
+	      */
+	    //STEP 6: Clean-up environment
+	      //rs.close();
+	      stmt.close();
+	      conn.close();
+	      
+	      
+    	   } catch (SQLException se) {
+    		   
+    		   //Handle errors for JDBC
+    		   se.printStackTrace();
+    		   
+    	   } catch(Exception e) {
+    		      //Handle errors for Class.forName
+    		      e.printStackTrace();
+    	   } finally {
+    		   		//finally block used to close resources
+    		      try{
+    		         if(stmt!=null)
+    		            stmt.close();
+    		      }catch(SQLException se2){
+    		      }// nothing we can do
+    		      try{
+    		         if(conn!=null)
+    		            conn.close();
+    		      }catch(SQLException se){
+    		         se.printStackTrace();
+    		      }//end finally try
+    		   
+    	   }
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+        // TODO Auto-generated method stub /////////////////// 
+
+        Database DB = new Database();
+        Scanner sc = new Scanner (System.in);
+        ArrayList<Person> list = new ArrayList<Person>();	
+        
+        //store created persons in a data structure
+        
+        String name;
+        int age;
+        String ic;
+        String address;
+        int phoneNumber;
+        String counselor;
+        int studentCount = 0;
+        
+        System.out.println("~~~~ STARTING UP CAPT ~~~~~");
+        System.out.println("Please enter the number of students : ");
+        studentCount = sc.nextInt();
+        
+        for (int i = 0; i < studentCount; i++) {
+        	//ask the user for all information
+        	System.out.println("\nPlease enter your name : ");
+        	name = sc.next();
+        	System.out.println("Please enter your age : ");
+        	age = sc.nextInt(); 
+        	System.out.println("Please enter your IC or passport :");
+        	ic = sc.next();
+        	System.out.println("Please enter your address :");
+        	address = sc.next();
+        	System.out.println("Please enter your phone number :");
+        	phoneNumber = sc.nextInt();
+        	System.out.println("Please enter your Counselor's name :");
+        	counselor = sc.next();
+        	
+        	//now that I have all the info, I can create a new oerson 
+        	Person p = new Person(name, age, ic, address, phoneNumber, counselor);
+        	p.q.AskAllQuestions();
+        	p.q.r.r.sortScoresToPersonalityType();
+        	
+        	//add person to data structure
+        	list.add(p);
+        }
+    }
+
+}
